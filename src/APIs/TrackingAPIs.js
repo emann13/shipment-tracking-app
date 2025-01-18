@@ -24,14 +24,13 @@ const fetchShipmentDetails = async (trackingNumber) => {
       return { formattedDate, date: dateObj.toISOString().split('T')[0], time };
     }
 
-    // Format other dates like "SUN NOV. 19"
+    // EX : "SUN OCT. 13"
     const options = { weekday: 'short', month: 'short', day: 'numeric' };
     const formattedDate = dateObj.toLocaleDateString('en-US', options).toUpperCase();
 
     return { formattedDate, date: dateObj.toISOString().split('T')[0], time };
   };
 
-  // Helper function to calculate expected working days
   const calculateWorkingDays = (date, deliveryCountryCode) => {
     const today = new Date();
     const deliveryDate = new Date(date);
@@ -41,19 +40,19 @@ const fetchShipmentDetails = async (trackingNumber) => {
 
     while (today < deliveryDate) {
       today.setDate(today.getDate() + 1);
-      if (!offDays.includes(today.getDay())) { // Skip off days
+      if (!offDays.includes(today.getDay())) { // CALC off days
         workingDays++;
       }
     }
     return workingDays;
   };
 
-  // Helper function to get off days based on country
+  // based on country
   const getOffDays = (deliveryCountryCode) => {
     switch (deliveryCountryCode) {
       case 'EG': return [5, 6]; // Friday and Saturday
-      case 'SA': return [4, 5]; // Thursday and Friday
-      default: return [5, 0]; // Saturday and Sunday
+      case 'SA': return [4, 5]; // Thur and Friday
+      default: return [5, 0]; // Saturday and Sun
     }
   };
 
@@ -69,10 +68,9 @@ const fetchShipmentDetails = async (trackingNumber) => {
       currentState: data.CurrentStatus?.state.toLowerCase() || 'N/A',
       currentStateDate: splitDateTime(data.CurrentStatus?.timestamp),
       events: [],
-      expectedInDays: 0, // Default value for expected in days
+      expectedInDays: 0, 
     };
 
-    // Calculate expected delivery in working days
     if (data.PromisedDate) {
       finalData.expectedInDays = calculateWorkingDays(data.PromisedDate, data.DeliveryCountryCode);
     }
@@ -81,23 +79,23 @@ const fetchShipmentDetails = async (trackingNumber) => {
       finalData.events = data.TransitEvents.map((event) => ({
         state: event.state?.toLowerCase() || 'N/A',
         code: event.code || 0,
-        ...splitDateTime(event.timestamp, true), // Add date and time using splitDateTime
+        ...splitDateTime(event.timestamp, true), 
       }));
     } else {
       if (data.collectedFromBusiness) {
         const dateC = splitDateTime(data.collectedFromBusiness);
         finalData.events.push({
           state: 'Order was Picked Up',
-          code: 1,
-          ...dateC, // Add date and time for this event
+          code: 0,
+          ...dateC, 
         });
       }
       if (data.CurrentStatus?.state?.toLowerCase() === 'delivered') {
         const dateD = splitDateTime(data.CurrentStatus.timestamp);
         finalData.events.push({
           state: 'Order Delivered',
-          code: 0,
-          ...dateD, // Add date and time for this event
+          code: 1,
+          ...dateD, 
         });
       }
     }

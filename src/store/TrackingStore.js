@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import fetchShipmentDetails from '../APIs/TrackingAPIs.js'; 
+import { toast } from 'react-toastify';
 
 const useTrackingStore = create((set) => ({
   trackingData: null,
@@ -9,17 +10,17 @@ const useTrackingStore = create((set) => ({
   fetchTrackingDetails: async (trackingNumber) => {
     set({ loading: true, error: null });
     try {
-     
       const data = await fetchShipmentDetails(trackingNumber);
-      console.log("data fetchedd", data)
+      if (data.error) {
+        throw new Error(data.error);
+      }
       set({ trackingData: data, loading: false });
     } catch (e) {
-      set({ error: e.error??"Error fetching your tracking data"
-        , 
-
-        
-
-        loading: false });
+      
+if (e.code ==="ERR_NETWORK"){
+  set({error:"Connection Error", loading: false,trackingData: null,})}
+      set({ trackingData: null, error: e.message, loading: false });
+      toast.error(e.message || 'An unexpected error occurred!');
     }
   },
 }));

@@ -3,23 +3,25 @@ import './SearchBar.css';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import useTrackingStore from '../../store/TrackingStore';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 function SearchBar() {
+  const { t } = useTranslation();
   const { fetchTrackingDetails, loading } = useTrackingStore();
   const [trackingNumber, setTrackingNumber] = useState('');
-  const [isSearchOpen, setIsSearchOpen] = useState(false); // To toggle the search box in smaller screens
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const handleSearch = () => {
     if (trackingNumber.trim() === '') {
-      alert('Please enter a tracking number.');
-      return;
+      return toast.error(t('pleaseEnterTrackingNumber'));
     }
     fetchTrackingDetails(trackingNumber);
-    setIsSearchOpen(false); // Close the modal after search
+    setIsSearchOpen(false);
   };
 
   const toggleSearch = () => {
-    setIsSearchOpen(!isSearchOpen); // Toggle the search box
+    setIsSearchOpen(!isSearchOpen); 
   };
 
   return (
@@ -30,18 +32,16 @@ function SearchBar() {
             <button
               className="search-button"
               onClick={handleSearch}
-              title="Search"
+              title={t('search')}
               disabled={loading}
             >
-              {loading ? 'Loading...' :           
-              <SearchIcon  className="search-icon" />
-            }
+              {loading ? t('loading') : <SearchIcon className="search-icon" />}
             </button>
           </div>
           <input
             type="text"
             className="search-input"
-            placeholder="Enter your tracking number"
+            placeholder={t('enterTrackingNumber')}
             value={trackingNumber}
             onChange={(e) => setTrackingNumber(e.target.value)}
           />
@@ -57,24 +57,23 @@ function SearchBar() {
         </button>
       )}
 
-      {/* Transparent Overlay for smaller screens */}
       {isSearchOpen && window.innerWidth <= 768 && (
         <div className="search-popup-overlay">
           <div className="search-popup">
             <input
               type="text"
               className="search-input"
-              placeholder="Enter your tracking number"
+              placeholder={t('enterTrackingNumber')}
               value={trackingNumber}
               onChange={(e) => setTrackingNumber(e.target.value)}
             />
             <button
               className="search-button"
               onClick={handleSearch}
-              title="Search"
+              title={t('search')}
               disabled={loading}
             >
-              {loading ? 'Loading' : 'Search'}
+              {loading ? t('loading') : t('search')}
             </button>
             <button className="close-button" onClick={toggleSearch}>
               <CloseIcon />

@@ -1,32 +1,54 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import "./OrderDetails.css";
 import useTrackingStore from "../../store/TrackingStore.js"; 
+import LoadingScreen from "../LoadingScreen/LoadingScreen.js";
+import CircularProgress from '@mui/material/CircularProgress';
+import CheckIcon from '@mui/icons-material/Check';
 
 function OrderDetails() {
+  const { t } = useTranslation();
   const trackingData = useTrackingStore((state) => state.trackingData);
   const loading = useTrackingStore((state) => state.loading);
+  const error = useTrackingStore((state) => state.error);
+
   const fetchTrackingDetails = useTrackingStore((state) => state.fetchTrackingDetails);
-  const [error, setError] = useState(null);
+  const [error3, setError] = useState(null);
 
   useEffect(() => {
     if (!trackingData) {
-      fetchTrackingDetails("69171493")
-        .catch((err) => {
-          setError(err.error || "An error occurred while fetching tracking details.");
-        });
+      // fetchTrackingDetails("69171493")
+      //   .catch((err) => { 
+      //     setError(err.error || "An error occurred while fetching tracking details.");
+      //   });
+      // return<div><h2>{t('startTracking')}</h2></div>
     }
-  }, [trackingData, fetchTrackingDetails]);
+  }, [trackingData, fetchTrackingDetails, t]);
 
   if (error) {
-    return <div className="error-message">Error: {error}</div>;
+    return (
+      <div
+        className="error-message"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          height: "50vh" 
+        }}
+      >
+        <h2>{t('startTracking')}</h2>
+      </div>
+    );
   }
-
   if (loading || !trackingData) {
-    return <div className="loading-message">Loading tracking details...</div>;
+    return  <div>
+      <LoadingScreen />
+    </div>;
   }
 
-  const stages = ["Picked up", "Processing", "Out for Delivery", "Delivered"];
-  const currentStateIndex = stages.map((stage) =>stage.toLowerCase()).indexOf(trackingData?.currentState?.toLowerCase());
+  const stages = [t('pickedUp'), t('processing'), t('outForDelivery'), t('delivered')];
+  const currentStateIndex = stages.map((stage) => stage.toLowerCase()).indexOf(trackingData?.currentState?.toLowerCase());
 
   let groupedTrackingDetails = [];
   if (trackingData?.events) {
@@ -44,7 +66,7 @@ function OrderDetails() {
         if (existingDay) {
           existingDay.events.push(event);
         } else {
-          acc.push({ date: event.date, events: [event] , formattedDate: event.formattedDate          });
+          acc.push({ date: event.date, events: [event], formattedDate: event.formattedDate });
         }
 
         return acc;
@@ -78,24 +100,22 @@ function OrderDetails() {
       <div className="order-progress-wrapper">
         {/* Order Info */}
         <div className="order-info">
-          <p className="order-number">ORDER #{trackingData?.trackingNumber}</p>
+          <p className="order-number">{t('orderNumber')}{trackingData?.trackingNumber}</p>
           <h2 className="order-arrival">
-  {trackingData?.currentState?.toLowerCase() === "delivered" 
-    ? "Arrived " 
-    : "Arriving by "} 
-  <span className="highlight">
-    {trackingData?.currentState?.toLowerCase() === "delivered" 
-      ? trackingData.currentStateDate.formattedDate 
-      : new Date(trackingData?.scheduleDate?.date) <= new Date() ? "Today" : trackingData.promisedDate.formattedDate }
-  </span>
-</h2>
-<p className="order-description">
-  Your order {trackingData?.currentState?.toLowerCase() === "delivered" ? "has arrived"
-   : `is expected to arrive ${trackingData?.expectedInDays === 0 ? "today" : `within ${trackingData?.expectedInDays} - ${trackingData?.expectedInDays + 1} working days`}`}.
-</p>
-
-
-
+            {trackingData?.currentState?.toLowerCase() === t('delivered').toLowerCase() 
+              ? t('arrived') 
+              : t('arrivingBy')} 
+            <span className="highlight">
+              {trackingData?.currentState?.toLowerCase() === t('delivered').toLowerCase() 
+                ? trackingData.currentStateDate.formattedDate 
+                : new Date(trackingData?.scheduleDate?.date) <= new Date() ? t('today') : trackingData.promisedDate.formattedDate }
+            </span>
+          </h2>
+          <p className="order-description">
+            {trackingData?.currentState?.toLowerCase() === t('delivered').toLowerCase() 
+              ? t('orderDescriptionDelivered') 
+              : t('orderDescriptionNotDelivered', { expectedInDays: trackingData?.expectedInDays, expectedInDaysPlusOne: trackingData?.expectedInDays + 1 })}
+          </p>
         </div>
 
         {/* Progress Bar */}
@@ -107,12 +127,20 @@ function OrderDetails() {
                   className={`progress-circle ${
                     index <= currentStateIndex ? "completed" : ""
                   }`}
-                ></div>
+                >
+                  {index <= currentStateIndex && <CheckIcon style={{ color: "white", backgroundColor: "transparent", fontSize: "15px", marginTop: "-10px" }} />}
+                </div>
                 <p className="progress-title">{stage}</p>
                 {index === currentStateIndex && (
                   <p className="progress-date">{trackingData?.currentStateDate?.formattedDate}</p>
                 )}
-                {index < stages.length - 1 && <div className="progress-line"></div>}
+                {index < stages.length - 1 && (
+                  <div
+                    className={`progress-line ${
+                      index <= currentStateIndex ? "" : "dashed"
+                    }`}
+                  ></div>
+                )}
               </div>
             ))}
           </div>
@@ -121,30 +149,32 @@ function OrderDetails() {
 
       {/* Tracking Details */}
       <div className="tracking-details">
-        <h4 className="tracking-title">Tracking details</h4>
+        <h4 className="tracking-title">{t('trackingDetails')}</h4>
         {groupedTrackingDetails.map((day, index) => {
-          const lineHeight = `${day.events.length * 54 + 40}px`; // Calculate height based on the number of events
-          {return ( day.events.length>0&& 
-            <div key={index} className="tracking-day">
-              <div className="tracking-header">
-                <div className="tracking-circle"></div>
-                <p className="tracking-date">{day.formattedDate}</p>
-                {index < groupedTrackingDetails.length - 1 && (
-                  <div className="tracking-line" style={{ height: lineHeight }}></div>
-                )}
+          const lineHeight = `${day.events.length * 72 + 40}px`; 
+          // Calculating height based on the number of events
+          return (
+            day.events.length > 0 && (
+              <div key={index} className="tracking-day">
+                <div className="tracking-header">
+                  <div className="tracking-circle"></div>
+                  <p className="tracking-date">{day.formattedDate}</p>
+                  {index < groupedTrackingDetails.length - 1 && (
+                    <div className="tracking-line" style={{ height: lineHeight }}></div>
+                  )}
+                </div>
+                <div className="tracking-events">
+                  {day.events.map((event, i) => (
+                    <div key={i} className="tracking-event-container">
+                      <div className="tracking-event">{event.state}</div>
+                      <div className="event-date">{event.time}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="tracking-events">
-                {day.events.map((event, i) => (
-                  <div key={i} className="tracking-event-container">
-                    <div className="tracking-event">{event.state}</div>
-                    <div className="event-date">{event.time}</div>
-
-                  </div>
-                ))}
-              </div>
-            </div>
+            )
           );
-        }})}
+        })}
       </div>
     </div>
   );
