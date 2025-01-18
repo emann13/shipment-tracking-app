@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/shipment-tracking-app/static/css/main.911a8e6a.css",
+    "main.js": "/shipment-tracking-app/static/js/main.645243b1.js",
+    "static/js/488.fe434763.chunk.js": "/shipment-tracking-app/static/js/488.fe434763.chunk.js",
+    "static/media/Pin.png": "/shipment-tracking-app/static/media/Pin.a0ffe681cb7b66a030fc.png",
+    "index.html": "/shipment-tracking-app/index.html",
+    "main.911a8e6a.css.map": "/shipment-tracking-app/static/css/main.911a8e6a.css.map",
+    "main.645243b1.js.map": "/shipment-tracking-app/static/js/main.645243b1.js.map",
+    "488.fe434763.chunk.js.map": "/shipment-tracking-app/static/js/488.fe434763.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.911a8e6a.css",
+    "static/js/main.645243b1.js"
+  ]
+}
