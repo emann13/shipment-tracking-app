@@ -1,0 +1,11 @@
+const COLORS = {
+    BOSTA_RED: "#E30613",
+    BOSTA_DARK: "#111619",
+    BOSTA_GREY: "#667085",
+    BOSTA_WHITE: "#FFFFFF",
+    BOSTA_TEAL: "rgb(73, 165, 173)",
+    BOSTA_LIGHT_TEAL: "#F3FAFB",
+  };
+  
+  export default COLORS;
+  

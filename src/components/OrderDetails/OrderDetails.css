@@ -1,0 +1,280 @@
+@import '/src/colors.css';
+.load-more-section {
+  width: 100%;
+  padding: 15px;
+  text-align: center;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.load-more-section.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.load-more-section:hover {
+  color: #007bff;
+}
+
+.dropdown-icon {
+  margin-left: 10px;
+}
+.order-details-container {
+  max-width: 967px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+.event-date {
+  font-size: 14px;
+  color: var(--bosta-grey);
+}
+
+.order-progress-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  width: 100%;
+  border: 1px solid #E4E7EC; 
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 24px 0px;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px 0px #1D29390D, 0px 0px 1px 1px #E4E7EC;
+}
+
+.order-info {
+  text-align: left;
+  margin-bottom: 0; 
+  padding-left: 16px; 
+}
+
+.order-number,
+.order-arrival,
+.order-description {
+  margin: 1px;
+  padding: 0;
+}
+
+.order-number {
+  font-size: 18px;
+  color: var(--bosta-grey);
+}
+
+.order-arrival {
+  font-size: 20px;
+  color: #333;
+}
+
+.highlight {
+  color: var(--bosta-teal);
+}
+
+.order-description {
+  font-size: 16px;
+  color:var(--bosta-grey);
+}
+
+.progress-bar-container {
+  width: 100%; 
+  margin-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 16px;
+  padding-bottom:30px ;
+  flex: 3; 
+  box-sizing: border-box; 
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress-step {
+  text-align: center;
+  position: relative;
+  flex-grow: 0.5; 
+}
+
+.progress-circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin: 0 auto;
+  background-color: #ddd;
+}
+
+.progress-circle.completed {
+  background-color: var(--bosta-teal);
+}
+
+.progress-line {
+  position: absolute;
+  width: calc(10% + 20px);
+  height: 2px;
+  top: 50%;
+  left: calc(10% + 10px);
+  z-index: 1;
+}
+
+.progress-line.completed {
+  background-color: var(--bosta-teal);
+}
+
+.progress-line.incomplete {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 50%, transparent 50%);
+  background-size: 10px 2px;
+  background-repeat: repeat-x;
+}
+
+.progress-title {
+  font-size: 14px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.progress-date {
+  font-size: 12px;
+  color: var(--bosta-dark);
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tracking-details {
+  margin-top: 20px;
+  padding-left: 2%;
+}
+
+.tracking-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: normal;
+  margin-left: -1.5%;
+  color: var(--bosta-grey);
+}
+
+.tracking-day {
+  margin-bottom: 20px;
+}
+
+.tracking-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.tracking-date {
+  font-size: 14px;
+  color: var(--bosta-dark);
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.tracking-events {
+  padding-left: 30px; 
+  font-size: 14px;
+}
+
+.tracking-event-container {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd; 
+  border-radius: 5px;
+}
+
+.tracking-event {
+  font-size: 14px;
+}
+
+.tracking-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tracking-event {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.tracking-circle {
+  width: 10px;
+  height: 10px;
+  background-color: var(--bosta-light-grey);
+  border-radius: 50%;
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tracking-line {
+  position: absolute;
+  width: 1.5px;
+  background-color: var(--bosta-light-grey);
+  top: 70%; 
+  right: 101%;
+  margin-left: -10px;
+  z-index: -1;
+}
+
+
+@media (max-width: 600px) {
+  .tracking-circle {
+    left: -10px; /* Shift tracking circle by -10px */
+  }
+
+  /* Align progress circles, titles, and dates vertically and on the left */
+  .progress-bar {
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left */
+  }
+
+  .progress-step {
+    margin-bottom: 40px; 
+    text-align: left; /* Align text to the left */
+    position: relative;
+    display: flex; /* Use flexbox to align text next to the circle */
+    align-items: center; /* Center vertically */
+  }
+
+  .progress-circle {
+    margin-right: 10px; /* Add space between circle and text */
+  }
+
+  .progress-title,
+  .progress-date {
+    display: block;
+    margin: 5px 0;
+    text-align: left; 
+
+  }
+  .progress-date {
+  width: 100%;
+  margin-left:25px ;
+  }
+
+  .progress-line {
+    width: 2px;
+    height: 40px;
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .progress-bar-container {
+    padding-left: 20px; 
+  }
+}

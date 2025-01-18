@@ -1,0 +1,59 @@
+@import '/src/colors.css';
+
+.header {
+  z-index: 1;
+  background-color: white; /* Change to white for the navbar */
+  padding: 20px 40px; /* Adjust padding */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box-shadow */
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header-logo {
+  height: 40px; /* Adjust logo size as needed */
+}
+
+.language-dropdown {
+  border: none;
+  background-color: transparent;
+  color: var(--bosta-dark);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px 10px;
+}
+
+/* Right side content container */
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-search {
+  display: none; /* Hide search by default on larger screens */
+}
+
+@media (max-width: 768px) {
+  /* For small screens (<= 768px), display the search bar */
+  .header-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 40px;
+  }
+
+  .header-container {
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .header-right {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+}

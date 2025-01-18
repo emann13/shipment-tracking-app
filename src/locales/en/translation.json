@@ -1,0 +1,15 @@
+{
+    "orderNumber": "ORDER #{{trackingNumber}}",
+    "orderArrival": "Arriving by",
+    "orderDescription": "Your order {{orderStatus}}",
+    "trackingDetails": "Tracking details",
+    "error": "Error: {{error}}",
+    "loading": "Loading tracking details...",
+    "pickedUp": "Picked up",
+    "processing": "Processing",
+    "outForDelivery": "Out for Delivery",
+    "delivered": "Delivered",
+    "today": "Today",
+    "expectedDays": "within {{days}} - {{daysPlusOne}} working days"
+  }
+  

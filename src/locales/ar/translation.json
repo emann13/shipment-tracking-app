@@ -1,0 +1,15 @@
+{
+    "orderNumber": "طلب رقم {{trackingNumber}}",
+    "orderArrival": "الوصول بحلول",
+    "orderDescription": "طلبك {{orderStatus}}",
+    "trackingDetails": "تفاصيل التتبع",
+    "error": "خطأ: {{error}}",
+    "loading": "جارٍ تحميل تفاصيل التتبع...",
+    "pickedUp": "تم الاستلام",
+    "processing": "قيد المعالجة",
+    "outForDelivery": "قيد التوصيل",
+    "delivered": "تم التوصيل",
+    "today": "اليوم",
+    "expectedDays": "خلال {{days}} - {{daysPlusOne}} أيام عمل"
+  }
+  

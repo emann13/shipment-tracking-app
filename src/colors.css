@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
+
+:root {
+  --font-family: 'Rubik', sans-serif;
+}
+
+:root {
+    --bosta-red: #E30613;
+    --bosta-dark: #111619;
+    --bosta-grey: #667085;
+    --bosta-light-grey:#E4E7EC;
+    --bosta-white: #FFFFFF;
+    --bosta-teal: rgb(73, 165, 173);
+    --bosta-light-teal: #F3FAFB;
+    --shadow-dark: #1D29390D;
+  --shadow-light: #E4E7EC;
+
+}
